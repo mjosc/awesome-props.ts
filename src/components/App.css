@@ -1,0 +1,37 @@
+.App-header {
+  text-align: center;
+}
+
+.App-console {
+  display: flex;
+}
+
+.App-console--left {
+  border: 2px solid green;
+  width: 50%;
+  height: 12em;
+}
+
+.App-console--right {
+  border: 2px solid blue;
+  width: 50%;
+  height: 12em;
+}
+
+.App-messages {
+  border: 2px solid black;
+}
+
+.App-results {
+  display: flex;
+}
+
+.App-results--left {
+  border: 2px solid green;
+  width: 50%;
+}
+
+.App-results--right {
+  border: 2px solid black;
+  width: 50%;
+}
