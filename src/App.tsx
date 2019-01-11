@@ -1,22 +1,24 @@
 import * as React from 'react';
 import Registration from './components/Registration';
+import Users from './components/Users';
 import './App.css';
 
 import { configureAuthHeader } from "./helpers/authorization";
 import axios from "axios";
 
 interface User {
-  username: string,
-  password: string,
+  id?: number,
+  username?: string,
+  password?: string,
   role: string,
   firstName: string,
   lastName: string,
-  dateOfBirth: string
+  dateOfBirth?: string
 }
 
 interface State {
   token: string,
-  users: {}
+  users: User[]
 }
 
 interface Props {
@@ -29,10 +31,14 @@ class App extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props);
+
+    // const users: User[] = [];
+
     this.state = {
       token: '',
-      users: {}
+      users: []
     };
+
   }
 
   // should this be a state property or a property on the class?
@@ -46,7 +52,7 @@ class App extends React.Component<Props, State> {
 
   getUserList = () => {
     axios.get('https://localhost:5001/api/users', configureAuthHeader(this.state.token))
-      .then(res => console.log(res.data))
+      .then(res => this.setState({ users: res.data }, () => console.log(this.state)))
       .catch(err => console.log(err.res.data));
   };
 
@@ -76,7 +82,7 @@ class App extends React.Component<Props, State> {
         </div>
         <div className='App-results'>
           <div className='App-results--left'>
-            users
+            <Users users={this.state.users}/>
           </div>
           <div className='App-results--right'>
             courses
@@ -98,3 +104,4 @@ class Modify extends React.Component {
 
 export default App;
 export { User };
+
