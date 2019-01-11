@@ -128,7 +128,6 @@ class App extends React.Component<Props, State> {
   };
 
   getCourseList = () => {
-    // Not implemented.
     axios.get(`${this.domain}/api/courses`, configureAuthHeader(this.state.token))
       .then(res => this.setState({ courses: res.data }))
       .catch(err => console.log(err.response.data));
