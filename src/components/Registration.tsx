@@ -47,7 +47,7 @@ class Registration extends React.Component<Props, State> {
 
   handleSubmit = (event: React.FormEvent<HTMLInputElement>) => {
     event.preventDefault();
-    axios.post('https://localhost:5001/api/users/register', this.state)
+    axios.post(`${this.props.domain}/api/users/register`, this.state)
       .then(res => this.props.saveToken(res.data.token))
       .catch(err => console.log(err.res.data));
   };

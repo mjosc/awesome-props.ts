@@ -122,15 +122,15 @@ class App extends React.Component<Props, State> {
   // API calls. These methods set state on the user and course lists.
 
   getUserList = () => {
-    axios.get('https://localhost:5001/api/users', configureAuthHeader(this.state.token))
-      .then(res => this.setState({ users: res.data }, () => console.log(this.state)))
+    axios.get(`${this.domain}/api/users`, configureAuthHeader(this.state.token))
+      .then(res => this.setState({ users: res.data }))
       .catch(err => console.log(err.response.data));
   };
 
   getCourseList = () => {
     // Not implemented.
-    axios.get('https://localhost:5001/api/courses', configureAuthHeader(this.state.token))
-      .then(res => this.setState({ courses: res.data }, () => console.log(this.state)))
+    axios.get(`${this.domain}/api/courses`, configureAuthHeader(this.state.token))
+      .then(res => this.setState({ courses: res.data }))
       .catch(err => console.log(err.response.data));
   };
 
@@ -158,11 +158,15 @@ class App extends React.Component<Props, State> {
 
           </div>
           <div className='App-console--right'>
-            <Modify/>
+
+            TODO: Add/Remove courses
+
           </div>
         </div>
         <div className='App-messages'>
-          messages
+
+          TODO: Messages
+
         </div>
         <div className='App-results'>
           <div className='App-results--left'>
@@ -179,14 +183,6 @@ class App extends React.Component<Props, State> {
 
       </div>
     );
-  }
-}
-
-class Modify extends React.Component {
-  render() {
-    return (
-      <div>add/remove</div>
-    )
   }
 }
 
