@@ -1,18 +1,33 @@
 import * as React from 'react';
-import axios from 'axios';
-
+import Registration from './components/Registration';
 import './App.css';
+
+import { configureAuthHeader } from "./helpers/authorization";
+import axios from "axios";
+
+interface User {
+  username: string,
+  password: string,
+  role: string,
+  firstName: string,
+  lastName: string,
+  dateOfBirth: string
+}
 
 interface State {
   token: string,
   users: {}
 }
 
-class App extends React.Component<{}, State> {
+interface Props {
+  // Not implemented.
+}
+
+class App extends React.Component<Props, State> {
 
   domain: string = 'https://localhost:5001';
 
-  constructor(props: {} = {}) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       token: '',
@@ -21,11 +36,19 @@ class App extends React.Component<{}, State> {
   }
 
   // should this be a state property or a property on the class?
+  // Each time a token is received the user list needs to be updated.
   saveToken = (token: string) => {
-    this.setState({ token }, () => console.log(this.state));
+    this.setState({ token }, () => this.getUserList());
   };
+
   getToken = () => this.state.token;
   // registerUser = (user: User) =>
+
+  getUserList = () => {
+    axios.get('https://localhost:5001/api/users', configureAuthHeader(this.state.token))
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err.res.data));
+  };
 
   render() {
     return (
@@ -65,80 +88,6 @@ class App extends React.Component<{}, State> {
   }
 }
 
-interface User {
-  username: string,
-  password: string,
-  role: string,
-  firstName: string,
-  lastName: string,
-  dateOfBirth: string
-}
-
-interface Props {
-  domain: string,
-  token: string,
-  saveToken: (token: string) => void // better way to pass a named param whose value is a function to the component?
-}
-
-// Responsible for registering the user and retrieving the returned token.
-class Registration extends React.Component<Props, User> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      username: '',
-      password: '',
-      role: '',
-      firstName: '',
-      lastName: '',
-      dateOfBirth: ''
-    }
-  }
-
-  handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const target = event.target;
-    this.setState(state => ({ ...state, [target.id]: target.value }));
-  };
-
-  handleSubmit = (event: React.FormEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    axios.post('https://localhost:5001/api/users/register', this.state)
-      .then(res => {
-        console.log(res.data);
-        this.props.saveToken(res.data.token);
-      })
-      .catch(err => console.log(err.res.data));
-  };
-
-  render() {
-    return (
-      <div>
-        <form>
-          {
-            Object.keys(this.state).map((value, index) => (
-              <React.Fragment key={value} >
-                <input
-                  id={value}
-                  type={value}
-                  placeholder={value}
-                  value={this.state[value]}
-                  onChange={this.handleChange}
-                />
-              </React.Fragment>
-            ))
-          }
-          <input
-            type='submit'
-            value={'Submit'}
-            onClick={this.handleSubmit}
-          />
-        </form>
-        <button>Register</button>
-      </div>
-    );
-  }
-}
-
 class Modify extends React.Component {
   render() {
     return (
@@ -148,3 +97,4 @@ class Modify extends React.Component {
 }
 
 export default App;
+export { User };
