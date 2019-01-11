@@ -19,11 +19,11 @@ class Registration extends React.Component<Props, State> {
 
     this.state = {
       username: '',
-      password: '',
-      role: '',
-      firstName: '',
-      lastName: '',
-      dateOfBirth: ''
+      password: 'pw',
+      role: 'student',
+      firstName: 'test',
+      lastName: 'test',
+      dateOfBirth: '1950-05-12'
     }
   }
 
