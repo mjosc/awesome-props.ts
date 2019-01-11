@@ -18,14 +18,11 @@ interface Props {
   users: User[]
 }
 
-class Users extends React.Component<Props, {}> {
-  constructor(props: Props) {
-    super(props);
-  }
+// A simple, state-less component responsible for rendering a list of all
+// users. Compare this implementation to Courses.tsx where
+// componentWillReceiveProps is used.
 
-  componentWillReceiveProps(nextProps: Readonly<Props>, nextContext: any): void {
-    console.log('will receive props');
-  }
+class Users extends React.Component<Props, {}> {
 
   render() {
     return (

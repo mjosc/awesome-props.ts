@@ -6,14 +6,14 @@ import { User } from '../App';
 // State interface is empty but permits a change of name for readability
 // and more uniform code.
 
-interface State extends User {
-  // No additional properties.
-}
-
 interface Props {
   domain: string,
   token: string,
   saveToken(token: string): void // Callback passed from App
+}
+
+interface State extends User {
+  // No additional properties.
 }
 
 
