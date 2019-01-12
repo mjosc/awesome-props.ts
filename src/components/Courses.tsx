@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Course } from '../App';
-import * as lodash from 'lodash';
+import { Course } from './CustomTypes';
 
 // The Course returned from the server lacks the optional properties defined
 // within App.tsx. More specifically, the effective Course interface of this
@@ -19,27 +18,29 @@ interface Props {
   courses: Course[]
 }
 
-interface State extends Props {
-  // No additional properties.
+interface State {
+  id: number,
+  index: number
 }
 
-// A simple component responsible for rendering a list of all courses. Of interest
-// is the use of componentWillReceiveProps. Compare this class to Users.
-//
-// Because the props are used within the constructor to set the state, the course
-// list would not be re-rendered with the updated list. In fact, it would remain
-// empty.
-//
-// Of course, this is not strictly necessary here. It may make more sense to avoid
-// Courses.state altogether (see Users, for example). However, the demonstrative
-// value is apparent.
+// This component implements state for demonstrative purposes only. This can be built out
+// in the future but right now simply represents a component who stores data relating to
+// that of props but using that data as read-only. Currently, the index and id are hardcoded.
+// This does not have to be the case.
+
+// This is purely demonstrative of `componentWillReceiveProps` and subtle differences in
+// managing state and props (see Users.tsx). It certainly has imperfections. For
+// example, the index could be initialized using `findIndex` on `this.props` or `this.state`
+// depending on which implementation is used. Additionally, the id would need to be updated
+// either via `this.props` , a button, or a randomizer.
 
 class Courses extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      courses: this.props.courses
+      id: 1,
+      index: -1
     }
   }
 
@@ -51,10 +52,9 @@ class Courses extends React.Component<Props, State> {
     // independently of the id. For the purposes of demonstrating this lifecycle
     // method, the following is sufficient.
 
-    if (!lodash.isEqual(this.props.courses, nextProps.courses)) {
-      // This will not trigger a re-render additional to that which is already
-      // pending.
-      this.setState({ courses: nextProps.courses });
+    const nextIndex = this.props.courses.findIndex(course => course.courseId == this.state.id);
+    if (!(nextIndex == this.state.index)) {
+      this.setState({ index: nextIndex });
     }
 
   }
@@ -69,7 +69,7 @@ class Courses extends React.Component<Props, State> {
             <th>Credit Hours</th>
             <th>Teacher</th>
           </tr>
-        {this.state.courses.map((course, index) => (
+        {this.props.courses.map((course, index) => (
           <tr key={`${course}-${index}`}>
             <td>{course.courseId}</td>
             <td>{course.courseName}</td>

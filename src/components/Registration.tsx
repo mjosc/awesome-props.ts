@@ -1,6 +1,6 @@
 import * as React from 'react';
 import axios from 'axios';
-import { User } from '../App';
+import { User } from './CustomTypes';
 
 // The Registration state matches the User definition exactly. The
 // State interface is empty but permits a change of name for readability
