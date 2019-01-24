@@ -1,5 +1,7 @@
 # awesome-props.ts
 
+> This is a very simple client-side application meant as an exercise in the technologies and features described below.
+
 A dive into TypeScript + React with an introduction to client-side JWT authentication and some practice with React.componentWillReceiveProps.
 
 The app interfaces with the [AwesomeDotNet](https://github.com/mjosc/AwesomeDotNet) API which connects to a MySQL database with a very simple LMS-type schema.
